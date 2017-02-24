@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noEmitOnError": true,
+        "stripInternal": true,
+        "sourceMap": true,
+        "skipDefaultLibCheck": true,
+        "newLine": "LF",
+        "rootDir": "src",
+        "outDir": "bld"
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
