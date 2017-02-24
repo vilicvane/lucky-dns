@@ -1,6 +1,6 @@
 {
   "name": "lucky-dns",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Lucky DNS",
   "bin": {
     "ldns": "bld/cli.js"
@@ -25,7 +25,9 @@
   "homepage": "https://github.com/vilic/lucky-dns#readme",
   "dependencies": {
     "clime": "^0.4.3",
-    "native-dns-packet": "^0.1.1"
+    "native-dns-packet": "^0.1.1",
+    "node-windows": "^0.1.14",
+    "villa": "^0.2.9"
   },
   "devDependencies": {
     "@types/node": "^7.0.5",

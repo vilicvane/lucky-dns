@@ -27,6 +27,11 @@ OPTIONS
   -i, --internal <internal>              - Internal (China) DNS server
   -e, --external <external>              - External DNS server
   -r, --internal-routes <internalRoutes> - Internal (China) routes file
+
+SUBCOMMANDS
+
+  install   - Install Lucky DNS as Windows Service
+  uninstall - Uninstall Lucky DNS Windows Service
 ```
 
 ## Build
