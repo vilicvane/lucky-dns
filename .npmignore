@@ -6,4 +6,5 @@
 
 /tsconfig.json
 
+*.js.map
 .*
