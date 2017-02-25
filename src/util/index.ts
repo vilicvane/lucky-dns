@@ -1,3 +1,1 @@
-import * as IP from './ip';
-
-export { IP };
+export * from './ip';

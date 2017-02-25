@@ -2,43 +2,27 @@ import * as Path from 'path';
 
 import {
   command,
-  option,
   param,
   Command,
-  ExpectedError,
-  Object,
-  Options
+  ExpectedError
 } from 'clime';
 
 import { Service } from 'node-windows';
 import * as v from 'villa';
 
-import { IP } from '../util';
+import {
+  DEFAULT_DNS_ADDRESS,
+  DEFAULT_DNS_PORT,
+  DEFAULT_DNS_INTERNAL,
+  DEFAULT_DNS_EXTERNAL,
+  DEFAULT_DNS_INTERNAL_ROUTES,
+  SERVICE_DEFINITION,
+  DNSOptions,
+  Nameserver,
+  NameserverResolveEvent
+} from '../core';
 
-// TODO: merge duplicates
-
-export class DNSOptions extends Options {
-  @option({
-    flag: 'i',
-    description: 'Internal (China) DNS server',
-    default: '180.76.76.76'
-  })
-  internal: IP.IPv4;
-
-  @option({
-    flag: 'e',
-    description: 'External DNS server',
-    default: '8.8.8.8'
-  })
-  external: IP.IPv4;
-
-  @option({
-    flag: 'r',
-    description: 'Internal (China) routes file',
-    default: Path.join(__dirname, '../../china-routes.txt')
-  })
-  internalRoutes: Object.File;
-}
+import { IPv4 } from '../util';
 
 @command({
   description: 'Install Lucky DNS as Windows Service'
@@ -47,13 +31,13 @@ export default class extends Command {
   async execute(
     @param({
       description: 'Address to bind',
-      default: '127.0.0.1'
+      default: DEFAULT_DNS_ADDRESS
     })
-    address: IP.IPv4,
+    address: IPv4,
 
     @param({
       description: 'Port to listen',
-      default: 53
+      default: DEFAULT_DNS_PORT
     })
     port: number,
 
@@ -63,9 +47,7 @@ export default class extends Command {
       throw new ExpectedError('This feature is only available on Windows');
     }
 
-    let service = new Service({
-      name: 'Lucky-DNS',
-      script: Path.join(__dirname, '../cli.js'),
+    let service = new Service(Object.assign(SERVICE_DEFINITION, {
       env: [
         {
           name: 'LUCKY_DNS_ADDRESS',
@@ -88,7 +70,7 @@ export default class extends Command {
           value: options.internalRoutes.fullName
         }
       ]
-    });
+    }));
 
     service.install();
     console.log('Installing...');

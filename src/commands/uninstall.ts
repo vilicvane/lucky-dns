@@ -10,6 +10,8 @@ import {
 import { Service } from 'node-windows';
 import * as v from 'villa';
 
+import { SERVICE_DEFINITION } from '../core';
+
 @command({
   description: 'Uninstall Lucky DNS Windows Service'
 })
@@ -20,10 +22,7 @@ export default class extends Command {
       throw new ExpectedError('This feature is only available on Windows');
     }
 
-    let service = new Service({
-      name: 'Lucky-DNS',
-      script: Path.join(__dirname, '../cli.js')
-    });
+    let service = new Service(SERVICE_DEFINITION);
 
     service.uninstall();
     console.log('Uninstalling...');

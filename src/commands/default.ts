@@ -1,39 +1,21 @@
-import * as Path from 'path';
-
 import {
   command,
-  option,
   param,
-  Command,
-  Object,
-  Options
+  Command
 } from 'clime';
 
-import { IP } from '../util';
-import { Nameserver, NameserverResolveEvent } from '../core';
+import {
+  DEFAULT_DNS_ADDRESS,
+  DEFAULT_DNS_PORT,
+  DEFAULT_DNS_INTERNAL,
+  DEFAULT_DNS_EXTERNAL,
+  DEFAULT_DNS_INTERNAL_ROUTES,
+  DNSOptions,
+  Nameserver,
+  NameserverResolveEvent
+} from '../core';
 
-export class DNSOptions extends Options {
-  @option({
-    flag: 'i',
-    description: 'Internal (China) DNS server',
-    default: process.env.LUCKY_DNS_INTERNAL || '180.76.76.76'
-  })
-  internal: IP.IPv4;
-
-  @option({
-    flag: 'e',
-    description: 'External DNS server',
-    default: process.env.LUCKY_DNS_EXTERNAL || '8.8.8.8'
-  })
-  external: IP.IPv4;
-
-  @option({
-    flag: 'r',
-    description: 'Internal (China) routes file',
-    default: process.env.LUCKY_DNS_INTERNAL_ROUTES || Path.join(__dirname, '../../china-routes.txt')
-  })
-  internalRoutes: Object.File;
-}
+import { IPv4 } from '../util';
 
 @command({
   description: 'Lucky DNS'
@@ -42,13 +24,13 @@ export default class extends Command {
   async execute(
     @param({
       description: 'Address to bind',
-      default: process.env.LUCKY_DNS_ADDRESS || '127.0.0.1'
+      default: DEFAULT_DNS_ADDRESS
     })
-    address: IP.IPv4,
+    address: IPv4,
 
     @param({
       description: 'Port to listen',
-      default: process.env.LUCKY_DNS_PORT || 53
+      default: DEFAULT_DNS_PORT
     })
     port: number,
 

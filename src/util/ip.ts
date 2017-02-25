@@ -56,7 +56,7 @@ export function compareNet(a: Net, b: Net): number {
   return a[0] - b[0];
 }
 
-export function match(address: number, sortedNets: Net[]): Net | undefined {
+export function matchAddressWithSortedNets(address: number, sortedNets: Net[]): Net | undefined {
   return _match(0, sortedNets.length);
 
   function _match(start: number, end: number): Net | undefined {

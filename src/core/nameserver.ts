@@ -3,7 +3,12 @@ import * as EventEmitter from 'events';
 
 import * as Packet from 'native-dns-packet';
 
-import { IP } from '../util';
+import {
+  compareNet,
+  convertAddressToInteger,
+  convertStringToNet,
+  matchAddressWithSortedNets
+} from '../util';
 
 const DNS_PORT = 53;
 const DNS_TIMEOUT = 5000;
@@ -39,8 +44,8 @@ export class Nameserver extends EventEmitter {
     let that = this;
 
     let chinaNets = (internalRoutesContent.match(/.+/g) || [])
-      .map(str => IP.convertStringToNet(str))
-      .sort(IP.compareNet);
+      .map(str => convertStringToNet(str))
+      .sort(compareNet);
 
     let server = dgram.createSocket('udp4');
 
@@ -75,8 +80,8 @@ export class Nameserver extends EventEmitter {
         }
 
         let inChina = aRecords.some(record => {
-          let address = IP.convertAddressToInteger(record.address);
-          return !!IP.match(address, chinaNets);
+          let address = convertAddressToInteger(record.address);
+          return !!matchAddressWithSortedNets(address, chinaNets);
         });
 
         if (internal && inChina) {
