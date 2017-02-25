@@ -7,7 +7,6 @@ import {
   ExpectedError
 } from 'clime';
 
-import { Service } from 'node-windows';
 import * as v from 'villa';
 
 import {
@@ -22,7 +21,7 @@ import {
   NameserverResolveEvent
 } from '../core';
 
-import { IPv4 } from '../util';
+import { IPv4, createWindowsService } from '../util';
 
 @command({
   description: 'Install Lucky DNS as Windows Service'
@@ -47,7 +46,7 @@ export default class extends Command {
       throw new ExpectedError('This feature is only available on Windows');
     }
 
-    let service = new Service(Object.assign(SERVICE_DEFINITION, {
+    let service = createWindowsService(Object.assign(SERVICE_DEFINITION, {
       env: [
         {
           name: 'LUCKY_DNS_ADDRESS',

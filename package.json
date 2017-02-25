@@ -27,8 +27,10 @@
   "dependencies": {
     "clime": "^0.4.3",
     "native-dns-packet": "^0.1.1",
-    "node-windows": "^0.1.14",
     "villa": "^0.2.9"
+  },
+  "optionalDependencies": {
+    "node-windows": "^0.1.14"
   },
   "devDependencies": {
     "@types/node": "^7.0.5",
