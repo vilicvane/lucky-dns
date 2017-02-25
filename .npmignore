@@ -4,3 +4,5 @@
 /typings/
 
 /tsconfig.json
+
+/bld/daemon/
