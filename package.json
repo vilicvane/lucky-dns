@@ -1,6 +1,6 @@
 {
   "name": "lucky-dns",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Lucky DNS",
   "bin": {
     "ldns": "bld/cli.js"
@@ -14,8 +14,9 @@
     "url": "git+https://github.com/vilic/lucky-dns.git"
   },
   "keywords": [
-    "china",
-    "dns"
+    "China",
+    "DNS",
+    "ChinaDNS"
   ],
   "author": "vilicvane",
   "license": "MIT",
