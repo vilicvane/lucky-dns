@@ -5,7 +5,11 @@ import { ExpectedError } from 'clime';
 export class IPv4 {
   private constructor(
     public text: string
-  ) { }
+  ) {
+    if (!Net.isIPv4(text)) {
+      throw new ExpectedError(`Invalid address "${text}"`);
+    }
+  }
 
   get value(): number {
     return convertAddressToInteger(this.text);
@@ -20,10 +24,6 @@ export class IPv4 {
   }
 
   static cast(text: string): IPv4 {
-    if (!Net.isIPv4(text)) {
-      throw new ExpectedError(`Invalid address "${text}"`);
-    }
-
     return new IPv4(text);
   }
 }
