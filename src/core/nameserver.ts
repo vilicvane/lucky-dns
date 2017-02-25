@@ -1,9 +1,10 @@
-import * as dgram from 'dgram';
+import * as Dgram from 'dgram';
 import * as EventEmitter from 'events';
 
 import * as Packet from 'native-dns-packet';
 
 import {
+  MessageCache,
   compareNet,
   convertAddressToInteger,
   convertStringToNet,
@@ -47,10 +48,18 @@ export class Nameserver extends EventEmitter {
       .map(str => convertStringToNet(str))
       .sort(compareNet);
 
-    let server = dgram.createSocket('udp4');
+    let cache = new MessageCache();
+    let server = Dgram.createSocket('udp4');
 
     server.on('message', (serverMessage, serverRemote) => {
-      let client = dgram.createSocket('udp4');
+      let cachedMessage = cache.get(serverMessage);
+
+      if (cachedMessage) {
+        server.send(cachedMessage, serverRemote.port, serverRemote.address);
+        return;
+      }
+
+      let client = Dgram.createSocket('udp4');
 
       let timer = setTimeout(closeClient, DNS_TIMEOUT);
 
@@ -107,7 +116,9 @@ export class Nameserver extends EventEmitter {
       function relay(message: Buffer, internal: boolean): void {
         clearTimeout(timer);
         closeClient();
+
         server.send(message, serverRemote.port, serverRemote.address);
+        cache.set(serverMessage, message);
 
         that.emit('resolve', {
           internal,
