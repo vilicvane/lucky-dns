@@ -42,9 +42,12 @@ export type Net = [number, number];
 
 export function convertStringToNet(netStr: string): Net {
   let parts = netStr.split('/');
+  let network = convertAddressToInteger(parts[0]);
+  let netmask = convertCIDRToNetmask(Number(parts[1]));
   return [
-    convertAddressToInteger(parts[0]),
-    convertCIDRToNetmask(Number(parts[1]))
+    // An extra & calculation should not be necessary, just to make sure.
+    network & netmask,
+    netmask
   ];
 }
 
