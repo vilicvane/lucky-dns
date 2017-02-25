@@ -18,16 +18,15 @@ import { createWindowsService } from '../util';
 export default class extends Command {
   @metadata
   async execute() {
-    if (process.platform !== 'win32') {
-      throw new ExpectedError('This feature is only available on Windows');
-    }
-
     let service = createWindowsService(SERVICE_DEFINITION);
 
-    service.uninstall();
-    console.log('Uninstalling...');
+    let uninstallAwaitable = v.awaitable(service, 'uninstall');
 
-    await v.awaitable(service, 'uninstall');
+    console.log('Uninstalling...');
+    service.uninstall();
+
+    await uninstallAwaitable;
+
     console.log('Service uninstalled.');
   }
 }

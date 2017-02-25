@@ -42,10 +42,6 @@ export default class extends Command {
 
     options: DNSOptions
   ) {
-    if (process.platform !== 'win32') {
-      throw new ExpectedError('This feature is only available on Windows');
-    }
-
     let service = createWindowsService(Object.assign(SERVICE_DEFINITION, {
       env: [
         {
@@ -71,15 +67,20 @@ export default class extends Command {
       ]
     }));
 
-    service.install();
+    let installAwaitable = v.awaitable(service, ['install', 'alreadyinstalled']);
+
     console.log('Installing...');
+    service.install();
 
-    await v.awaitable(service, 'install');
+    await installAwaitable;
 
-    service.start();
+    let startAwaitable = v.awaitable(service, 'start');
+
     console.log('Starting service...');
+    service.start();
 
-    await v.awaitable(service, 'start');
-    console.log('Service should have been started. If not, try to start it manually.');
+    await startAwaitable;
+
+    console.log('Service should have been started.');
   }
 }
