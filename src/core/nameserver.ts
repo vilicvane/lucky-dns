@@ -79,29 +79,29 @@ export class Nameserver extends EventEmitter {
           return;
         }
 
-        if (internal && !answer.length) {
-          relay(clientMessage, internal);
-          return;
-        }
-
-        let aRecords = answer.filter(record => record.type === 1);
-
-        if (internal && !aRecords.length) {
-          relay(clientMessage, internal);
-          return;
-        }
-
-        let inChina = aRecords.some(record => {
-          let address = convertAddressToInteger(record.address);
-          return !!matchAddressWithSortedNets(address, chinaNets);
-        });
-
-        if (internal && inChina) {
-          relay(clientMessage, internal);
-          return;
-        }
-
         if (internal) {
+          if (!answer.length) {
+            relay(clientMessage, internal);
+            return;
+          }
+
+          let aRecords = answer.filter(record => record.type === 1);
+
+          if (!aRecords.length) {
+            relay(clientMessage, internal);
+            return;
+          }
+
+          let inChina = aRecords.some(record => {
+            let address = convertAddressToInteger(record.address);
+            return !!matchAddressWithSortedNets(address, chinaNets);
+          });
+
+          if (inChina) {
+            relay(clientMessage, internal);
+            return;
+          }
+
           if (externalCandidateMessage) {
             relay(externalCandidateMessage, false);
           } else {
