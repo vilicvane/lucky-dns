@@ -19,6 +19,8 @@ export interface NameserverOptions {
   address: string;
   /** Local port to listen. */
   port: number;
+  /** Cache timeout. */
+  timeout: number;
   /** Internal (China) DNS. */
   internal: string;
   /** External DNS. */
@@ -36,6 +38,7 @@ export class Nameserver extends EventEmitter {
   constructor({
     address,
     port,
+    timeout,
     internal: internalDNS,
     external: externalDNS,
     internalRoutesContent
@@ -48,7 +51,7 @@ export class Nameserver extends EventEmitter {
       .map(str => convertStringToNet(str))
       .sort(compareNet);
 
-    let cache = new MessageCache();
+    let cache = new MessageCache(timeout);
     let server = Dgram.createSocket('udp4');
 
     server.on('message', (serverMessage, serverRemote) => {

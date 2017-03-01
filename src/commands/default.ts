@@ -39,9 +39,10 @@ export default class extends Command {
     let nameserver = new Nameserver({
       address: address.text,
       port: port,
+      timeout: options.timeout,
       internal: options.internal.text,
       external: options.external.text,
-      internalRoutesContent: await options.internalRoutes.text('ascii')
+      internalRoutesContent: await options.internalRoutes.text('utf-8')
     });
 
     nameserver.on('ready', () => {

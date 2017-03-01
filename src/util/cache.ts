@@ -36,7 +36,11 @@ export class Cache<TKey, TValue> {
 }
 
 export class MessageCache {
-  cache = new Cache<string, Buffer>();
+  private cache: Cache<string, Buffer>;
+
+  constructor(timeout: number) {
+    this.cache = new Cache<string, Buffer>(timeout);
+  }
 
   set(key: Buffer, value: Buffer): void {
     let keyMd5 = generateMD5Hex(key);

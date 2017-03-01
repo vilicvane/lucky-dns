@@ -5,6 +5,7 @@ import {
 } from 'clime';
 
 import {
+  DEFAULT_DNS_CACHE_TIMEOUT,
   DEFAULT_DNS_INTERNAL,
   DEFAULT_DNS_EXTERNAL,
   DEFAULT_DNS_INTERNAL_ROUTES
@@ -13,6 +14,13 @@ import {
 import { IPv4 } from '../util';
 
 export class DNSOptions extends Options {
+  @option({
+    flag: 't',
+    description: 'DNS cache timeout',
+    default: DEFAULT_DNS_CACHE_TIMEOUT
+  })
+  timeout: number;
+
   @option({
     flag: 'i',
     description: 'Internal (China) DNS server',
