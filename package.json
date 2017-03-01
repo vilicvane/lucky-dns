@@ -1,6 +1,6 @@
 {
   "name": "lucky-dns",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Lucky DNS",
   "bin": {
     "ldns": "bld/cli.js"
